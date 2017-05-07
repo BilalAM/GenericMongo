@@ -1,0 +1,43 @@
+Product collection : 
+
+{
+	"_id" : ObjectId("590d9eb73e58bd1f78ca0164"),
+	"productQuantity" : 1,
+	"productCode" : 22,
+	"description" : "Deleicious Fresh Bread",
+	"productName" : "Bread",
+	"productPrice" : 50.05,
+	"productCategory" : "Food And Grocery"
+}
+
+/////////////////////////////////////////////////////////
+
+Customer Collection : 
+
+{
+	"_id" : ObjectId("590d9dce3e58bd1ea42d745f"),
+	"code" : 1,
+	"name" : "Bilal Asif Mirza"
+}
+
+//////////////////////////////////////////////////////////
+
+Order Collection
+
+{
+	"_id" : ObjectId("590da9ab3e58bd251df22827"),
+	"product" : {
+		"productQuantity" : 1,
+		"productCode" : 11,
+		"description" : "Apple Phones",
+		"productName" : "Iphone",
+		"productPrice" : 90.85,
+		"productCategory" : "Electronics"
+	},
+	"timeStampOfOrder" : "10-2-2018",
+	"orderCode" : 1,
+	"customer" : {
+		"code" : 1,
+		"name" : "Bilal Asif Mirza"
+	}
+}
