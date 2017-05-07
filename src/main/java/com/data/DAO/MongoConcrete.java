@@ -65,4 +65,17 @@ public abstract class MongoConcrete<T> implements IMongoAccess<T> {
 		}
 		return entityToReturn;
 	}
+	
+	//maps document results into a list of objects
+	@Override
+	public List<T> getLimitedFilteredResult(Bson filter, int limit) {
+		Gson gson = new GsonBuilder().create();
+		List<T> innerList = new ArrayList<>();
+		collection.find(filter).limit(limit).forEach((Block<Document>) document -> {
+			innerList.add(gson.fromJson(document.toJson(), entityClass));
+		});
+		return innerList;
+
+	}
+
 }
