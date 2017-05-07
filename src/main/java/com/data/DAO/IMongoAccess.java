@@ -11,7 +11,9 @@ interface IMongoAccess<T> {
 	void add(T entity);
 
 	T getOneFilter(Bson filterQuery);
-
+	
+	List<T> getLimitedFilteredResult(Bson filter, int limit);
+	
 	void remove(Bson filterQuery);
 
 }
