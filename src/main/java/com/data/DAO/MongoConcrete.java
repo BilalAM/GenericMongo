@@ -77,5 +77,10 @@ public abstract class MongoConcrete<T> implements IMongoAccess<T> {
 		return innerList;
 
 	}
+	
+	@Override
+	public void removeMany(Bson filterQuery){
+		collection.deleteMany(filterQuery);
+	}
 
 }
