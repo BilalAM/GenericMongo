@@ -5,9 +5,12 @@ No external library used for mapping EXCEPT google.gson, all mapping is done by 
 
 **Uses google gson library and mongo Json library for serializing and deserializing purposes**
 
-DAO --> Abstract And Concrete implimentations of data access classes ( Standard generic Dao pattern)
+**DAO** --> Abstract And Concrete implimentations of data access classes ( Standard generic Dao pattern)
 
-MODLES --> POJO classes
+**MODLES** --> POJO classes
+
+
+**ALL CODE BELONGS TO THE OWNER AND CREATOR OF THIS REPOSITORY , ASK PERMISSION FIRST THEN EDIT THIS CODE ANYWAY YOU WANT :) **
 
 
 
