@@ -10,7 +10,7 @@ No external library used for mapping EXCEPT google.gson, all mapping is done by 
 **MODLES** --> POJO classes
 
 
-**ALL CODE BELONGS TO THE OWNER AND CREATOR OF THIS REPOSITORY , ASK PERMISSION FIRST THEN EDIT THIS CODE ANYWAY YOU WANT :) **
+ :heavy_exclamation_mark:  :heavy_exclamation_mark: **ALL CODE BELONGS TO THE OWNER AND CREATOR OF THIS REPOSITORY , ASK PERMISSION FIRST THEN EDIT THIS CODE ANYWAY YOU WANT**  :smiley:
 
 
 
