@@ -39,9 +39,9 @@ public class ScaffolderMain implements IScaffold {
 	private static void generateCode(File file, String modelClass) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			StringBuilder codeBuilder = new StringBuilder();
-			codeBuilder.append("package com.data.DAO");
+			codeBuilder.append("package com.data.DAO;");
 			codeBuilder.append("\n");
-			codeBuilder.append("import com.data.MODELS." + modelClass);
+			codeBuilder.append("import com.data.MODELS." + modelClass + ";");
 
 			writer.write(codeBuilder.toString());
 
