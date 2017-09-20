@@ -18,26 +18,36 @@ public class ScaffolderMain implements IScaffold {
 
 		// {P}roductmongoconcrete
 		char camelCasedName = Character.toUpperCase(modelClass.charAt(0));
-		
-		
+
 		// ProductMongoConcrete.java
 		String appendedModelName = String.valueOf(camelCasedName) + modelClass.substring(1) + "MongoConcrete" + ".java";
 
 		// make it a file
-		File file = new File(appendedModelName);
+		File file = new File("src/com/data/DAO/" + appendedModelName);
 
+		// check for pre existing class
+		if (file.exists()) {
+			System.out.println("concrete already created");
+		}
+
+		generateCode(file, modelClass);
+
+	
+
+	}
+
+	private static void generateCode(File file, String modelClass) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			StringBuilder codeBuilder = new StringBuilder();
 			codeBuilder.append("package com.data.DAO");
 			codeBuilder.append("\n");
 			codeBuilder.append("import com.data.MODELS." + modelClass);
-			
+
 			writer.write(codeBuilder.toString());
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
