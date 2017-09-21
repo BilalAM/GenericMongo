@@ -18,31 +18,35 @@ public class ScaffolderMain implements IScaffold {
 
 		// {P}roductmongoconcrete
 		char camelCasedName = Character.toUpperCase(modelClass.charAt(0));
-
 		// ProductMongoConcrete.java
 		String appendedModelName = String.valueOf(camelCasedName) + modelClass.substring(1) + "MongoConcrete" + ".java";
-
 		// make it a file
 		File file = new File("src/com/data/DAO/" + appendedModelName);
-
 		// check for pre existing class
 		if (file.exists()) {
 			System.out.println("concrete already created");
 		}
-
-		generateCode(file, modelClass);
-
-	
+		generateCode(file, modelClass,appendedModelName);
 
 	}
 
-	private static void generateCode(File file, String modelClass) {
+	private static void generateCode(File file, String modelClass, String appendedModelName) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			StringBuilder codeBuilder = new StringBuilder();
 			codeBuilder.append("package com.data.DAO;");
 			codeBuilder.append("\n");
 			codeBuilder.append("import com.data.MODELS." + modelClass + ";");
-
+			codeBuilder.append("\n");
+			codeBuilder
+					.append("public class " + appendedModelName + " extends " + "MongoConcrete<" + modelClass + ">{");
+			codeBuilder.append("\n");
+			codeBuilder.append("public " + appendedModelName + "(){");
+			codeBuilder.append("\n");
+			codeBuilder.append("super(\"" + modelClass + "Collection" + "\");");
+			codeBuilder.append("\n");
+			codeBuilder.append("}");
+			codeBuilder.append("\n");
+			codeBuilder.append("}");
 			writer.write(codeBuilder.toString());
 
 		} catch (Exception e) {
