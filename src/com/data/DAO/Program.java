@@ -30,7 +30,14 @@ public class Program {
 		
 		/* EXAMPLE OF USING THE SCAFFOLDER */
 		ScaffolderMain main = new ScaffolderMain();
-		main.generateClass("MongoConcrete", "Car");
+		main.generateClass("MongoConcrete", "Customer");
 		main.generateClass("MongoConcrete", "Nature");
+		main.generateClass("MongoConcrete", "Order");
+		main.generateClass("MongoConcrete", "Product");
+		main.generateClass("MongoConcrete", "Vehicle");
+		
+	
+
+
 	}
 }
