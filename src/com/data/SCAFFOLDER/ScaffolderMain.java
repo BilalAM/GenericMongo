@@ -18,10 +18,12 @@ public class ScaffolderMain implements IScaffold {
 
 		// {P}roductmongoconcrete
 		char camelCasedName = Character.toUpperCase(modelClass.charAt(0));
+		// ProductMongoConcrete
+		String appendedModelName = String.valueOf(camelCasedName) + modelClass.substring(1) + "MongoConcrete";
 		// ProductMongoConcrete.java
-		String appendedModelName = String.valueOf(camelCasedName) + modelClass.substring(1) + "MongoConcrete" + ".java";
+		String appendedClassName = String.valueOf(camelCasedName) + modelClass.substring(1) + "MongoConcrete" + ".java";
 		// make it a file
-		File file = new File("src/com/data/DAO/" + appendedModelName);
+		File file = new File("src/com/data/DAO/" + appendedClassName);
 		// check for pre existing class
 		if (file.exists()) {
 			System.out.println("concrete already created");
