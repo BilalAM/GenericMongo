@@ -28,7 +28,7 @@ public class ScaffolderMain implements IScaffold {
 		if (file.exists()) {
 			System.out.println("concrete already created");
 		}
-		generateCode(file, modelClass,appendedModelName);
+		generateCode(file, modelClass, appendedModelName);
 
 	}
 
@@ -55,5 +55,4 @@ public class ScaffolderMain implements IScaffold {
 			e.printStackTrace();
 		}
 	}
-
 }
