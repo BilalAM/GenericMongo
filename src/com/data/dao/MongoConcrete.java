@@ -1,4 +1,4 @@
-package com.data.DAO;
+package com.data.dao;
 
 import java.io.Reader;
 import java.lang.reflect.ParameterizedType;
@@ -65,8 +65,8 @@ public abstract class MongoConcrete<T> implements IMongoAccess<T> {
 		}
 		return entityToReturn;
 	}
-	
-	//maps document results into a list of objects
+
+	// maps document results into a list of objects
 	@Override
 	public List<T> getLimitedFilteredResult(Bson filter, int limit) {
 		Gson gson = new GsonBuilder().create();
@@ -77,10 +77,9 @@ public abstract class MongoConcrete<T> implements IMongoAccess<T> {
 		return innerList;
 
 	}
-	
+
 	@Override
-	public void removeMany(Bson filterQuery){
+	public void removeMany(Bson filterQuery) {
 		collection.deleteMany(filterQuery);
 	}
-
 }

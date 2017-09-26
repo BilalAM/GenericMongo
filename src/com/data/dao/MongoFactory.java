@@ -1,4 +1,4 @@
-package com.data.DAO;
+package com.data.dao;
 
 import org.bson.Document;
 

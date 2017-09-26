@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.data.MAPPER;
+package com.data.mapper;
 
 /**
  * @author bilalam
@@ -9,9 +9,7 @@ package com.data.MAPPER;
  */
 public class Mappy {
 
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

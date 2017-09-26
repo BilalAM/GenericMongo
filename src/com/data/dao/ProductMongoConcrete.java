@@ -1,6 +1,6 @@
-package com.data.DAO;
+package com.data.dao;
 
-import com.data.MODELS.Product;
+import com.data.models.Product;
 
 public class ProductMongoConcrete extends MongoConcrete<Product> {
 	public ProductMongoConcrete() {

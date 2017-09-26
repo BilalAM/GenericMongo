@@ -1,9 +1,9 @@
-package com.data.DAO;
+package com.data.dao;
 
 import java.util.List;
 
-import com.data.MODELS.*;
-import com.data.SCAFFOLDER.ScaffolderMain;
+import com.data.models.*;
+import com.data.scaffolder.ScaffolderMain;
 import com.mongodb.client.model.Filters;
 
 public class Program {

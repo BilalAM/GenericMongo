@@ -1,6 +1,6 @@
-package com.data.DAO;
+package com.data.dao;
 
-import com.data.MODELS.Vehicle;
+import com.data.models.Vehicle;
 
 public class VehicleMongoConcrete extends MongoConcrete<Vehicle> {
 	public VehicleMongoConcrete() {

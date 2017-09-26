@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.data.SCAFFOLDER;
+package com.data.scaffolder;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,9 +35,9 @@ public class ScaffolderMain implements IScaffold {
 	private static void generateCode(File file, String modelClass, String appendedModelName) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 			StringBuilder codeBuilder = new StringBuilder();
-			codeBuilder.append("package com.data.DAO;");
+			codeBuilder.append("package com.data.dao;");
 			codeBuilder.append("\n");
-			codeBuilder.append("import com.data.MODELS." + modelClass + ";");
+			codeBuilder.append("import com.data.models." + modelClass + ";");
 			codeBuilder.append("\n");
 			codeBuilder
 					.append("public class " + appendedModelName + " extends " + "MongoConcrete<" + modelClass + ">{");
