@@ -5,11 +5,13 @@ No external library used for mapping EXCEPT google.gson, all mapping is done by 
 
 **Uses google gson library and mongo Json library for serializing and deserializing purposes**
 
-**DAO** --> Abstract And Concrete implimentations of data access classes ( Standard generic Dao pattern)
+**dao** --> Abstract And Concrete implimentations of data access classes ( Standard generic Dao pattern)
 
-**MODLES** --> POJO classes
+**models** --> POJO classes
 
-**SCAFFOLDER** --> Generates the concrete model dao classes instead of writing redundant classes ( PLEASE SEE Program.java TO UNDERSTAND HOW IT ALL WORKS  
+**scaffolder** --> Generates the concrete model dao classes instead of writing redundant classes ( PLEASE SEE Program.java TO UNDERSTAND HOW IT ALL WORKS  
+
+**mapper**  --> An attempt to create a Object Document Modelling (ORMs for non-relational databases). Project still underway , maybe subjected to extensive edits and revisions
 
 
  :heavy_exclamation_mark:  :heavy_exclamation_mark: **ALL CODE BELONGS TO THE OWNER AND CREATOR OF THIS REPOSITORY , ASK PERMISSION FIRST THEN EDIT THIS CODE ANYWAY YOU WANT**  :smiley:
