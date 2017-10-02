@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -37,7 +38,19 @@ public class ModelMaker extends Mappy {
 		return document;
 
 	}
-
+	
+	private static List<Node> getNodes(String tagName){
+		List<Node> nodes = new ArrayList<>();
+		NodeList documentNodes = prepareAndGetDocument().getElementsByTagName(tagName);
+		for(int i =0 ; i < documentNodes.getLength()-1 ; i++){
+			Node tempNode = documentNodes.item(i);
+			nodes.add(tempNode);
+		}
+		return nodes;
+	}
+	
+	
+	
 	/* tests */
 	public static void main(String[] args) {
 		try {;
