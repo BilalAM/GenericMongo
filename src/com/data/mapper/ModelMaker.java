@@ -20,47 +20,48 @@ import org.xml.sax.InputSource;
 import com.data.mapper.Mappy;
 
 public class ModelMaker extends Mappy {
-
-	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml"; 
+	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 
-	
-	
-	/* tests*/
-	public static void main(String[] args) {
+	/* makes and prepares a document for parsing */
+	private static org.w3c.dom.Document prepareAndGetDocument() {
+		org.w3c.dom.Document document = null;
 		try {
 			File file = new File(MAPPING_FILE);
 			DocumentBuilder builder = parserFactory.newDocumentBuilder();
-			org.w3c.dom.Document document = builder.parse(file);
+			document = builder.parse(file);
 			document.getDocumentElement().normalize();
-			
-			System.out.println("ROOT ELEMENT --> " + document.getDocumentElement().getNodeName());
-			NodeList collectionNodes = document.getElementsByTagName("collection");
-			
-			for(int i =0 ; i < collectionNodes.getLength()-1 ; i++){
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return document;
+
+	}
+
+	/* tests */
+	public static void main(String[] args) {
+		try {;
+
+			System.out.println("ROOT ELEMENT --> " + prepareAndGetDocument().getDocumentElement().getNodeName());
+			NodeList collectionNodes = prepareAndGetDocument().getElementsByTagName("collection");
+
+			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
 				Node nNode = collectionNodes.item(i);
-				
+
 				System.out.println("current node --> " + nNode.getNodeName());
 				System.out.println("current node type --> " + nNode.getNodeType());
 				System.out.println(nNode.getAttributes().getNamedItem("name").getNodeValue());
 			}
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
+
 	@Override
 	public List<String> getAttributes(String collectionName) {
 		// TODO Auto.-generated method stub
 		return super.getAttributes(collectionName);
 	}
-	
-	
-	
 
 }
