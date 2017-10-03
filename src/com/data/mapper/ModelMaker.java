@@ -23,10 +23,15 @@ import com.data.mapper.Mappy;
 public class ModelMaker extends Mappy {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
-
-	/* makes and prepares a document for parsing */
-	private static org.w3c.dom.Document prepareAndGetDocument() {
-		org.w3c.dom.Document document = null;
+	private static org.w3c.dom.Document document;
+	
+	static {
+		initialize();
+	}
+	
+	
+	private static void initialize() {
+		
 		try {
 			File file = new File(MAPPING_FILE);
 			DocumentBuilder builder = parserFactory.newDocumentBuilder();
@@ -35,28 +40,25 @@ public class ModelMaker extends Mappy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return document;
+		
 
 	}
-	
-	private static List<Node> getNodes(String tagName){
+
+	private static List<Node> getNodes(String tagName) {
 		List<Node> nodes = new ArrayList<>();
-		NodeList documentNodes = prepareAndGetDocument().getElementsByTagName(tagName);
-		for(int i =0 ; i < documentNodes.getLength()-1 ; i++){
+		NodeList documentNodes = document.getElementsByTagName(tagName);
+		for (int i = 0; i < documentNodes.getLength() - 1; i++) {
 			Node tempNode = documentNodes.item(i);
 			nodes.add(tempNode);
 		}
 		return nodes;
 	}
-	
-	
-	
+
 	/* tests */
 	public static void main(String[] args) {
-		try {;
-
-			System.out.println("ROOT ELEMENT --> " + prepareAndGetDocument().getDocumentElement().getNodeName());
-			NodeList collectionNodes = prepareAndGetDocument().getElementsByTagName("collection");
+		try {
+			System.out.println("ROOT ELEMENT --> " + document.getDocumentElement().getNodeName());
+			NodeList collectionNodes = document.getElementsByTagName("collection");
 
 			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
 				Node nNode = collectionNodes.item(i);
