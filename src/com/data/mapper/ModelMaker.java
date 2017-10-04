@@ -20,7 +20,7 @@ import org.xml.sax.InputSource;
 
 import com.data.mapper.Mappy;
 
-public class ModelMaker{
+public class ModelMaker {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 	private static org.w3c.dom.Document document;
@@ -52,7 +52,7 @@ public class ModelMaker{
 		return nodes;
 	}
 
-	private static String getRootElement() {
+	private static String getDatabaseName() {
 		Node nNode = document.getFirstChild().getAttributes().getNamedItem("name");
 		return nNode.getNodeValue();
 
@@ -61,7 +61,7 @@ public class ModelMaker{
 	/* tests */
 	public static void main(String[] args) {
 		try {
-			System.out.println("ROOT ELEMENT --> " + getRootElement());
+			System.out.println("Database Name" + getDatabaseName());
 			NodeList collectionNodes = document.getElementsByTagName("collection");
 
 			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
@@ -76,6 +76,5 @@ public class ModelMaker{
 			e.printStackTrace();
 		}
 	}
-
 
 }
