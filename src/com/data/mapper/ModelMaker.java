@@ -20,18 +20,17 @@ import org.xml.sax.InputSource;
 
 import com.data.mapper.Mappy;
 
-public class ModelMaker extends Mappy {
+public class ModelMaker{
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 	private static org.w3c.dom.Document document;
-	
+
 	static {
 		initialize();
 	}
-	
-	
+
 	private static void initialize() {
-		
+
 		try {
 			File file = new File(MAPPING_FILE);
 			DocumentBuilder builder = parserFactory.newDocumentBuilder();
@@ -40,7 +39,6 @@ public class ModelMaker extends Mappy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -54,10 +52,16 @@ public class ModelMaker extends Mappy {
 		return nodes;
 	}
 
+	private static String getRootElement() {
+		Node nNode = document.getFirstChild().getAttributes().getNamedItem("name");
+		return nNode.getNodeValue();
+
+	}
+
 	/* tests */
 	public static void main(String[] args) {
 		try {
-			System.out.println("ROOT ELEMENT --> " + document.getDocumentElement().getNodeName());
+			System.out.println("ROOT ELEMENT --> " + getRootElement());
 			NodeList collectionNodes = document.getElementsByTagName("collection");
 
 			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
@@ -73,10 +77,5 @@ public class ModelMaker extends Mappy {
 		}
 	}
 
-	@Override
-	public List<String> getAttributes(String collectionName) {
-		// TODO Auto.-generated method stub
-		return super.getAttributes(collectionName);
-	}
 
 }
