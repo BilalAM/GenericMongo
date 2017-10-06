@@ -53,9 +53,12 @@ public class ModelMaker {
 	}
 
 	private static String getDatabaseName() {
-		Node nNode = document.getFirstChild().getAttributes().getNamedItem("name");
-		return nNode.getNodeValue();
-
+		Node nNode = document.getElementsByTagName("db").item(0).getAttributes().getNamedItem("name");
+		if (nNode.getNodeValue() == "") {
+			return "Name of database is empty";
+		} else {
+			return nNode.getNodeValue();
+		}
 	}
 
 	/* tests */
@@ -66,10 +69,16 @@ public class ModelMaker {
 
 			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
 				Node nNode = collectionNodes.item(i);
+				if (nNode.hasChildNodes()) {
+					NodeList childCollection = nNode.getChildNodes();
+					for (int j = 0; j < childCollection.getLength() - 1; j++) {
+						Node childNode = childCollection.item(j);
+						System.out.println("node value --> " + childNode.getTextContent());
+					}
+				}
+				System.out.println("\n");
+				System.out.println("node value --> " + nNode.getTextContent());
 
-				System.out.println("current node --> " + nNode.getNodeName());
-				System.out.println("current node type --> " + nNode.getNodeType());
-				System.out.println(nNode.getAttributes().getNamedItem("name").getNodeValue());
 			}
 
 		} catch (Exception e) {
