@@ -1,30 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+	<db name="ProductDB">
 
-<database name = "ProductDB">
-	<collection name = "ProductCollection">
-		<mapTo>Product</mapTo>
-		<relation type = "one-many" with = "ProductCategory.java">productCategory</relation>
-		<mapAll>true</mapAll>
-	</collection>
+		<collection name="Product" class="Product.java">
+			<attribute name="productId" key="product_id" type="string" />
+			<attribute name="productName" key="product_name" type="int" />
+		</collection>
 
-	<collection name = "OrderCollection">
-		<mapTo>Order</mapTo>
-		<mapAll>true</mapAll>
-	</collection>
+	</db>
 
-	<collection name = "CustomerCollection">
-		<mapTo>Customer</mapTo>
-		<mapAll>true</mapAll>
-	</collection>
-
-	<collection name = "VehicleCollection">
-		<mapTo>Vehicle</mapTo>
-		<mapAll>false</mapAll>
-		<mapExceptions>
-			<key>vehicleColour</key>
-			<key>vehicleBla</key>
-		</mapExceptions>
-	</collection>
-	
-	
-</database>
+</mapping>
