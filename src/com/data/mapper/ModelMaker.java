@@ -40,7 +40,6 @@ public class ModelMaker {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private static List<Node> getNodes(String tagName) {
@@ -62,39 +61,23 @@ public class ModelMaker {
 		}
 	}
 
-	private static boolean hasMappingNode() {
-		Node mappingNode = document.getFirstChild();
-		if(mappingNode.getNodeName().equals("mapping")) {
-			Node collectionNode = mappingNode.getNextSibling();
-			if()
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	private static boolean hasDBNode() {
-
-	}
-
-	private static boolean isCollectionNode(Node nNode) {
-		if (nNode.getNodeName().equals("collection")) {
-			if (checkCollectionAttributes(nNode)) {
-				return true;
-			}
-		}
-		return false;
+	private static List<Node> getCollectionNodes() {
+		return getNodes("collection");
 	}
 
 	private static boolean checkCollectionAttributes(Node nNode) {
 		boolean check = true;
 		for (int i = 0; i < nNode.getAttributes().getLength(); i++) {
-			if (nNode.getAttributes().getNamedItem("name").equals("name")
-					|| nNode.getAttributes().getNamedItem("class").equals("class")) {
-				check = true;
-			} else {
-				check = false;
+			try {
+				if (nNode.getAttributes().getNamedItem("name").getNodeName().equals("name")
+						&& nNode.getAttributes().getNamedItem("class").getNodeName().equals("class")) {
+					check = true;
+				} else {
+					check = false;
+				}
+			} catch (Exception e) {
+				System.out.println("one of the attrbutes are missing , please check the format");
+				e.printStackTrace();
 			}
 		}
 		return check;
@@ -103,11 +86,9 @@ public class ModelMaker {
 	/* tests */
 	public static void main(String[] args) {
 		try {
-			System.out.println("Database Name" + getDatabaseName());
-			for (Node node : getNodes("collection")) {
-				System.out.println(node.getAttributes().getNamedItem("name"));
+			for (Node node : getCollectionNodes()) {
+				System.out.println(checkCollectionAttributes(node));
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
