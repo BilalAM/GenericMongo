@@ -12,6 +12,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.dom4j.Attribute;
 import org.jdom2.Document;
 import org.jdom2.transform.JDOMSource;
 import org.w3c.dom.Node;
@@ -45,7 +46,7 @@ public class ModelMaker {
 	private static List<Node> getNodes(String tagName) {
 		List<Node> nodes = new ArrayList<>();
 		NodeList documentNodes = document.getElementsByTagName(tagName);
-		for (int i = 0; i < documentNodes.getLength() - 1; i++) {
+		for (int i = 0; i < documentNodes.getLength(); i++) {
 			Node tempNode = documentNodes.item(i);
 			nodes.add(tempNode);
 		}
@@ -61,24 +62,50 @@ public class ModelMaker {
 		}
 	}
 
+	private static boolean hasMappingNode() {
+		Node mappingNode = document.getFirstChild();
+		if(mappingNode.getNodeName().equals("mapping")) {
+			Node collectionNode = mappingNode.getNextSibling();
+			if()
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private static boolean hasDBNode() {
+
+	}
+
+	private static boolean isCollectionNode(Node nNode) {
+		if (nNode.getNodeName().equals("collection")) {
+			if (checkCollectionAttributes(nNode)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean checkCollectionAttributes(Node nNode) {
+		boolean check = true;
+		for (int i = 0; i < nNode.getAttributes().getLength(); i++) {
+			if (nNode.getAttributes().getNamedItem("name").equals("name")
+					|| nNode.getAttributes().getNamedItem("class").equals("class")) {
+				check = true;
+			} else {
+				check = false;
+			}
+		}
+		return check;
+	}
+
 	/* tests */
 	public static void main(String[] args) {
 		try {
 			System.out.println("Database Name" + getDatabaseName());
-			NodeList collectionNodes = document.getElementsByTagName("collection");
-
-			for (int i = 0; i < collectionNodes.getLength() - 1; i++) {
-				Node nNode = collectionNodes.item(i);
-				if (nNode.hasChildNodes()) {
-					NodeList childCollection = nNode.getChildNodes();
-					for (int j = 0; j < childCollection.getLength() - 1; j++) {
-						Node childNode = childCollection.item(j);
-						System.out.println("node value --> " + childNode.getTextContent());
-					}
-				}
-				System.out.println("\n");
-				System.out.println("node value --> " + nNode.getTextContent());
-
+			for (Node node : getNodes("collection")) {
+				System.out.println(node.getAttributes().getNamedItem("name"));
 			}
 
 		} catch (Exception e) {
