@@ -25,6 +25,7 @@ public class ModelMaker {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 	private static org.w3c.dom.Document document;
+	private static List<String> collectionAttributesData = new ArrayList<>();
 
 	static {
 		initialize();
@@ -65,18 +66,19 @@ public class ModelMaker {
 		return getNodes("collection");
 	}
 
-	private static boolean checkCollectionAttributes(Node nNode) {
+	private static boolean checkAndGetCollectionAttributes(Node nNode) {
 		boolean check = true;
 		for (int i = 0; i < nNode.getAttributes().getLength(); i++) {
 			try {
 				if (nNode.getAttributes().getNamedItem("name").getNodeName().equals("name")
 						&& nNode.getAttributes().getNamedItem("class").getNodeName().equals("class")) {
+					// fills the list with name and class attribute values constantly
+					collectionAttributesData.add(nNode.getAttributes().item(i).getTextContent());
 					check = true;
 				} else {
 					check = false;
 				}
 			} catch (Exception e) {
-				System.out.println("one of the attrbutes are missing , please check the format");
 				e.printStackTrace();
 			}
 		}
@@ -87,7 +89,10 @@ public class ModelMaker {
 	public static void main(String[] args) {
 		try {
 			for (Node node : getCollectionNodes()) {
-				System.out.println(checkCollectionAttributes(node));
+				System.out.println(checkAndGetCollectionAttributes(node));
+			}
+			for(String s : collectionAttributesData) {
+				System.out.println(s);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
