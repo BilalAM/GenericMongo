@@ -49,21 +49,25 @@ public class ModelMaker {
 		for (int i = 0; i < documentNodes.getLength(); i++) {
 			Node tempNode = documentNodes.item(i);
 			nodes.add(tempNode);
+			// check child nodes
+			if (tempNode.hasChildNodes()) {
+				NodeList childNodes = tempNode.getChildNodes();
+				for (int j = 0; j < childNodes.getLength() - 1; j++) {
+					Node childTempNode = childNodes.item(j);
+				}
+			}
+
 		}
 		return nodes;
 	}
 
-	private static String getDatabaseName() {
+	public static String getDatabaseName() {
 		Node nNode = document.getElementsByTagName("db").item(0).getAttributes().getNamedItem("name");
 		if (nNode.getNodeValue() == "") {
 			return "Name of database is empty";
 		} else {
 			return nNode.getNodeValue();
 		}
-	}
-
-	private static List<Node> getCollectionNodes() {
-		return getNodes("collection");
 	}
 
 	private static boolean checkAndGetCollectionAttributes(Node nNode) {
@@ -85,16 +89,37 @@ public class ModelMaker {
 		return check;
 	}
 
+	private static boolean checkAndGetAttributes(Node nNode) {
+		return true;
+	}
+
 	/* tests */
 	public static void main(String[] args) {
 		try {
-			for (Node node : getCollectionNodes()) {
-				System.out.println(checkAndGetCollectionAttributes(node));
+			Metadata metaData = new Metadata();
+
+			for (Node node : getNodes("db")) {
+				System.out.println(node.getAttributes().getNamedItem("name").getTextContent());
+				metaData.setDbName(node.getAttributes().getNamedItem("name").getTextContent());
+				for (Node collectionNode : getNodes("collection")) {
+					System.out.println("collection  =====");
+					System.out.println(collectionNode.getAttributes().getNamedItem("name").getTextContent());
+					System.out.println(collectionNode.getAttributes().getNamedItem("class").getTextContent());
+					System.out.println("=====");
+					for (Node attributeNode : getNodes("attribute")) {
+						System.out.println("attribute ====");
+						System.out.println(attributeNode.getAttributes().getNamedItem("name").getTextContent());
+						System.out.println(attributeNode.getAttributes().getNamedItem("key").getTextContent());
+						System.out.println(attributeNode.getAttributes().getNamedItem("type").getTextContent());
+						System.out.println("=====");
+
+					}
+				}
 			}
-			for(String s : collectionAttributesData) {
-				System.out.println(s);
-			}
-		} catch (Exception e) {
+
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 	}
