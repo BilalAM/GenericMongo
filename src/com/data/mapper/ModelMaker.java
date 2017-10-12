@@ -30,8 +30,28 @@ public class ModelMaker {
 
 	/* tests */
 	public static void main(String[] args) {
-		ValidatorXmlXsl d = new ValidatorXmlXsl();
-		d.run();
+		Parser parser = new Parser();
+		Metadata data = parser.parse();
+		System.out.println(data.getDbName());
+		for(CollectionMetaData collection : data.getCollections()) {
+			System.out.println(collection.getCollectionClassName());
+			System.out.println(collection.getCollectionName());
+		}
+	}
+	
+	
+	private String declareStringVariable(String identifier) {
+		return "String " + identifier + ";";
+	}
+	private String declareIntegerVariable(String identifier) {
+		return "int " + identifier + ";";
+
+	}
+	private String declareListVariable(String identifier , String type) {
+		return "List<" + type + ">" + identifier + ";" ;
+	}
+	private String declareDoubleVariable(String identifier) {
+		return  "double" + identifier + ";";
 	}
 
 }
