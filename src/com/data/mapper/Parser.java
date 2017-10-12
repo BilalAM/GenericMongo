@@ -29,7 +29,7 @@ public class Parser {
 		}
 	}
 
-	private static void parse() {
+	public Metadata parse() {
 		Metadata data = new Metadata();
 		List<CollectionMetaData> collections = new ArrayList<>();
 		List<Node> attributeNodes = new ArrayList<>();
@@ -94,6 +94,7 @@ public class Parser {
 			}
 		}
 		System.out.println("ds");
+		return data;
 	}
 
 }
