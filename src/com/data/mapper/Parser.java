@@ -20,12 +20,8 @@ public class Parser {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 	private static org.w3c.dom.Document document;
-	private static List<String> collectionAttributesData = new ArrayList<>();
 
 	private static final MongoClient myClient = new MongoClient("localhost:27017");
-	private static MongoDatabase database;
-	private MongoCollection<Document> collection;
-
 	static {
 		initialize();
 	}
@@ -83,8 +79,7 @@ public class Parser {
 						collection = new CollectionMetaData();
 						attributeNodes = new ArrayList<>();
 
-						// get the attributes of the collection node
-						NamedNodeMap attributesOfCollection = tempChildOfDbNode.getAttributes();
+						tempChildOfDbNode.getAttributes();
 
 						// set the collection name and collection class name attributes
 						collection.setCollectionName(
