@@ -7,15 +7,24 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.bson.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public class Parser {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
 	private static final DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
 	private static org.w3c.dom.Document document;
 	private static List<String> collectionAttributesData = new ArrayList<>();
+
+	private static final MongoClient myClient = new MongoClient("localhost:27017");
+	private static MongoDatabase database;
+	private MongoCollection<Document> collection;
 
 	static {
 		initialize();
@@ -33,6 +42,17 @@ public class Parser {
 		}
 	}
 
+	private static boolean checkDBExistence(String DbName) {
+
+		for (String s : myClient.listDatabaseNames()) {
+			if (s.equalsIgnoreCase(DbName)) {
+				System.out.println(s);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Metadata parse() {
 		Metadata data = new Metadata();
 		List<CollectionMetaData> collections = new ArrayList<>();
@@ -43,8 +63,14 @@ public class Parser {
 		for (int i = 0; i < list.getLength(); i++) {
 			Node tempNode = list.item(i);
 			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
-				/* setting dbName */
-				data.setDbName(tempNode.getAttributes().getNamedItem("name").getTextContent());
+				// check if db name exists
+				if (checkDBExistence(tempNode.getAttributes().getNamedItem("name").getTextContent())) {
+					System.out.println("database found successfully");
+					data.setDbName(tempNode.getAttributes().getNamedItem("name").getTextContent());
+				} else {
+					System.out.println("database doesnt exists");
+					break;
+				}
 				// get collection nodes against dbName node
 				NodeList childsOfDb = tempNode.getChildNodes();
 				// traverse the collection nodes
@@ -55,11 +81,11 @@ public class Parser {
 					if (tempChildOfDbNode.getNodeType() == Node.ELEMENT_NODE) {
 						// initialize the metadata for a SINGLE collection
 						collection = new CollectionMetaData();
-						attributeNodes = new ArrayList<>();	
+						attributeNodes = new ArrayList<>();
 
 						// get the attributes of the collection node
 						NamedNodeMap attributesOfCollection = tempChildOfDbNode.getAttributes();
-						
+
 						// set the collection name and collection class name attributes
 						collection.setCollectionName(
 								tempChildOfDbNode.getAttributes().getNamedItem("name").getTextContent());
