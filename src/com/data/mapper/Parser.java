@@ -38,7 +38,7 @@ public class Parser {
 		}
 	}
 
-	private static boolean checkDBExistence(String DbName) {
+	private static final boolean checkDBExistence(String DbName) {
 
 		for (String s : myClient.listDatabaseNames()) {
 			if (s.equalsIgnoreCase(DbName)) {
@@ -48,8 +48,11 @@ public class Parser {
 		}
 		return false;
 	}
+	private static boolean checkCOLLECTIONExistence(String collectionName) {
+		return true;
+	}
 
-	public Metadata parse() {
+	public static Metadata parse() {
 		Metadata data = new Metadata();
 		List<CollectionMetaData> collections = new ArrayList<>();
 		List<Node> attributeNodes = null;
@@ -110,7 +113,7 @@ public class Parser {
 				data.setCollections(collections);
 			}
 		}
-		// System.out.println("ds");
+		System.out.println("ds");
 		return data;
 	}
 
