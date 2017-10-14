@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,34 +26,66 @@ import org.xml.sax.InputSource;
 
 import com.data.mapper.Mappy;
 
+import lombok.val;
 import utilities.ValidatorXmlXsl;
 
 public class ModelMaker {
 
+	private static final Metadata DATA = Parser.parse();
+
 	/* tests */
 	public static void main(String[] args) {
-		Parser parser = new Parser();
-		Metadata data = parser.parse();
-		System.out.println(data.getDbName());
-		for(CollectionMetaData collection : data.getCollections()) {
-			System.out.println(collection.getCollectionClassName());
-			System.out.println(collection.getCollectionName());
+
+		/*
+		  	
+		  
+		  
+		 
+		 * */
+
+	}
+
+	private static void generateClass(CollectionMetaData collection) {
+		String className = collection.getCollectionClassName();
+		Map<String, String> attributes = new HashMap<>();
+		
+		
+		
+		
+		
+	}
+	
+	private String generateVariableDeclaration(CollectionMetaData collection) {
+		StringBuilder builder = new StringBuilder();
+		for(Node attributeNode : collection.getAttributeNodes()) {
+			/*     
+			 if(attributeNode.getTextContent(type).equals(String)){
+			 	builder.append(declareStringVariable(....)
+			 }
+			 do like this...
+			 
+			 **/
 		}
+		return builder.toString();
 	}
 	
 	
-	private String declareStringVariable(String identifier) {
+	private static String declareStringVariable(String identifier) {
 		return "String " + identifier + ";";
 	}
-	private String declareIntegerVariable(String identifier) {
+
+	private static String declareIntegerVariable(String identifier) {
 		return "int " + identifier + ";";
 
 	}
-	private String declareListVariable(String identifier , String type) {
-		return "List<" + type + ">" + identifier + ";" ;
+
+	private static String declareListVariable(String identifier, String type) {
+
+		return "List<" + type + "> " + identifier + ";";
 	}
-	private String declareDoubleVariable(String identifier) {
-		return  "double" + identifier + ";";
+
+	private static String declareDoubleVariable(String identifier) {
+		return "double" + identifier + ";";
 	}
 
 }
