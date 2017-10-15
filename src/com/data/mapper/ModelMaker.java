@@ -45,31 +45,28 @@ public class ModelMaker {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void generateClass(CollectionMetaData collection) {
 		String className = collection.getCollectionClassName();
 		Map<String, String> attributes = new HashMap<>();
-		
-		
-		
-		
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	private String generateVariableDeclaration(CollectionMetaData collection) {
 		StringBuilder builder = new StringBuilder();
-		for(Node attributeNode : collection.getAttributeNodes()) {
-			/*     
-			 if(attributeNode.getTextContent(type).equals(String)){
-			 	builder.append(declareStringVariable(....)
-			 }
-			 do like this...
-			 
-			 **/
+
+		for (Node attributeNode : collection.getAttributeNodes()) {
+			String typeVariable = attributeNode.getAttributes().getNamedItem("type").getTextContent();
+			String identifer = attributeNode.getAttributes().getNamedItem("name").getTextContent();
+			if (typeVariable.equalsIgnoreCase("string")) {
+				builder.append(declareStringVariable(identifer));
+			}
+
 		}
 		return builder.toString();
 	}
-	
-	
+
 	private static String declareStringVariable(String identifier) {
 		return "String " + identifier + ";";
 	}
