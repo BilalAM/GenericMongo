@@ -36,13 +36,6 @@ public class ModelMaker {
 	/* tests */
 	public static void main(String[] args) {
 
-		/*
-		  	
-		  
-		  
-		 
-		 * */
-
 	}
 
 	@SuppressWarnings("unused")
@@ -61,6 +54,12 @@ public class ModelMaker {
 			String identifer = attributeNode.getAttributes().getNamedItem("name").getTextContent();
 			if (typeVariable.equalsIgnoreCase("string")) {
 				builder.append(declareStringVariable(identifer));
+			} else if (typeVariable.equalsIgnoreCase("int")) {
+				builder.append(declareIntegerVariable(identifer));
+			} else if (typeVariable.equalsIgnoreCase("double")) {
+				builder.append(declareDoubleVariable(identifer));
+			} else if (typeVariable.equalsIgnoreCase("collection")) {
+				builder.append(declareListVariable(identifer, typeVariable));
 			}
 
 		}
