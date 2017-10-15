@@ -22,34 +22,9 @@ public class Parser {
 	private static org.w3c.dom.Document document;
 
 	private static final MongoClient myClient = new MongoClient("localhost:27017");
+
 	static {
 		initialize();
-	}
-
-	private static void initialize() {
-
-		try {
-			File file = new File(MAPPING_FILE);
-			DocumentBuilder builder = parserFactory.newDocumentBuilder();
-			document = builder.parse(file);
-			document.getDocumentElement().normalize();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static final boolean checkDBExistence(String DbName) {
-
-		for (String s : myClient.listDatabaseNames()) {
-			if (s.equalsIgnoreCase(DbName)) {
-				System.out.println(s);
-				return true;
-			}
-		}
-		return false;
-	}
-	private static boolean checkCOLLECTIONExistence(String collectionName) {
-		return true;
 	}
 
 	public static Metadata parse() {
@@ -57,15 +32,19 @@ public class Parser {
 		List<CollectionMetaData> collections = new ArrayList<>();
 		List<Node> attributeNodes = null;
 		CollectionMetaData collection = null;
+		MongoDatabase database = null;
 
 		NodeList list = document.getDocumentElement().getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node tempNode = list.item(i);
 			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
+				String dbName = tempNode.getAttributes().getNamedItem("name").getTextContent();
 				// check if db name exists
-				if (checkDBExistence(tempNode.getAttributes().getNamedItem("name").getTextContent())) {
+				if (checkDBExistence(dbName)) {
+					// opens a connection to that database for checking collections and attributes
+					database = myClient.getDatabase(dbName);
 					System.out.println("database found successfully");
-					data.setDbName(tempNode.getAttributes().getNamedItem("name").getTextContent());
+					data.setDbName(dbName);
 				} else {
 					System.out.println("database doesnt exists");
 					break;
@@ -81,15 +60,21 @@ public class Parser {
 						// initialize the metadata for a SINGLE collection
 						collection = new CollectionMetaData();
 						attributeNodes = new ArrayList<>();
+						// get collection name from xml
+						String collectionName = tempChildOfDbNode.getAttributes().getNamedItem("name").getTextContent();
+						// check its existence
+						if (checkCollectionExistence(database, collectionName)) {
 
-						tempChildOfDbNode.getAttributes();
+							// set the collection name and collection class name attributes
+							collection.setCollectionName(collectionName);
 
-						// set the collection name and collection class name attributes
-						collection.setCollectionName(
-								tempChildOfDbNode.getAttributes().getNamedItem("name").getTextContent());
-						collection.setCollectionClassName(
-								tempChildOfDbNode.getAttributes().getNamedItem("class").getTextContent());
-
+							collection.setCollectionClassName(
+									tempChildOfDbNode.getAttributes().getNamedItem("class").getTextContent());
+						} else {
+							// we couldnt found any collection , exit the parsing procedure
+							System.out.println("collection doesnt exist , please create one");
+							break;
+						}
 						// get the child <attribute>..</attribute> nodes of that SINGLE collection
 						NodeList childsOfCollection = tempChildOfDbNode.getChildNodes();
 						// traverse the list
@@ -99,6 +84,7 @@ public class Parser {
 							// check it
 							if (tempChildOfCollection.getNodeType() == Node.ELEMENT_NODE) {
 								// add the attribute node completely into the attributeNodes list
+
 								attributeNodes.add(tempChildOfCollection);
 							}
 						}
@@ -113,8 +99,42 @@ public class Parser {
 				data.setCollections(collections);
 			}
 		}
-		System.out.println("ds");
 		return data;
+	}
+
+	private static void initialize() {
+
+		try {
+			File file = new File(MAPPING_FILE);
+			DocumentBuilder builder = parserFactory.newDocumentBuilder();
+			document = builder.parse(file);
+			document.getDocumentElement().normalize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static boolean checkDBExistence(String DbName) {
+
+		for (String s : myClient.listDatabaseNames()) {
+			if (s.equalsIgnoreCase(DbName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean checkAttributesExistence(String dbName, String attr) {
+		return false;
+	}
+
+	private static boolean checkCollectionExistence(MongoDatabase database, String collectionName) {
+		for (String s : database.listCollectionNames()) {
+			if (s.equals(collectionName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
