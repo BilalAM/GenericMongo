@@ -1,52 +1,48 @@
 package com.data.mapper;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.dom4j.Attribute;
-import org.jdom2.Document;
-import org.jdom2.transform.JDOMSource;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import java.io.FileWriter;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-
-import com.data.mapper.Mappy;
-
-import lombok.val;
-import utilities.ValidatorXmlXsl;
 
 public class ModelMaker {
 
 	private static final Metadata DATA = Parser.parse();
 
 	/* tests */
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception {
+		for (CollectionMetaData collection : DATA.getCollections()) {
+			generateClass(collection);
+		}
 	}
 
 	@SuppressWarnings("unused")
-	private static void generateClass(CollectionMetaData collection) {
+	private static void generateClass(CollectionMetaData collection) throws Exception {
 		String className = collection.getCollectionClassName();
-		Map<String, String> attributes = new HashMap<>();
+		String classNameWithoutExtension = className.substring(0, className.indexOf("."));
+		File file = new File("src/com/data/models/" + className);
+		if (file.exists()) {
+			System.out.println(className + " already created");
+		}
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			writer.append("package com.data.models;");
+			writer.append("\n");
+			if (generateVariableDeclaration(collection).contains("collection")) {
+				writer.append("import java.util;");
+			}
+			writer.append("\n");
+			writer.append("public class " + classNameWithoutExtension);
+			writer.append("\n {");
+			writer.append("\n");
+			writer.append(generateVariableDeclaration(collection));
+			writer.append("\n");
+			writer.append("}");
+		}
 
 	}
 
 	@SuppressWarnings("unused")
-	private String generateVariableDeclaration(CollectionMetaData collection) {
+	private static String generateVariableDeclaration(CollectionMetaData collection) {
 		StringBuilder builder = new StringBuilder();
 
 		for (Node attributeNode : collection.getAttributeNodes()) {
@@ -54,12 +50,19 @@ public class ModelMaker {
 			String identifer = attributeNode.getAttributes().getNamedItem("name").getTextContent();
 			if (typeVariable.equalsIgnoreCase("string")) {
 				builder.append(declareStringVariable(identifer));
+				builder.append("\n");
 			} else if (typeVariable.equalsIgnoreCase("int")) {
 				builder.append(declareIntegerVariable(identifer));
+				builder.append("\n");
+
 			} else if (typeVariable.equalsIgnoreCase("double")) {
 				builder.append(declareDoubleVariable(identifer));
+				builder.append("\n");
+
 			} else if (typeVariable.equalsIgnoreCase("collection")) {
 				builder.append(declareListVariable(identifer, typeVariable));
+				builder.append("\n");
+
 			}
 
 		}
@@ -81,7 +84,7 @@ public class ModelMaker {
 	}
 
 	private static String declareDoubleVariable(String identifier) {
-		return "double" + identifier + ";";
+		return "double " + identifier + ";";
 	}
 
 }
