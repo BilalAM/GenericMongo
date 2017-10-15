@@ -117,7 +117,7 @@ public class Parser {
 	private static boolean checkDBExistence(String DbName) {
 
 		for (String s : myClient.listDatabaseNames()) {
-			if (s.equalsIgnoreCase(DbName)) {
+			if (s.equals(DbName)) {
 				return true;
 			}
 		}
