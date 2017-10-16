@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.bson.Document;
+import org.json.JSONObject;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,6 +16,7 @@ import org.w3c.dom.NodeList;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 public class Parser {
 	private static final String MAPPING_FILE = "/home/bilalam/git/GenericMongo/resources/mapping.xml";
@@ -33,6 +35,7 @@ public class Parser {
 		List<Node> attributeNodes = null;
 		CollectionMetaData collection = null;
 		MongoDatabase database = null;
+		MongoCollection<Document> mongoCollection = null;
 
 		NodeList list = document.getDocumentElement().getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
@@ -84,8 +87,14 @@ public class Parser {
 							// check it
 							if (tempChildOfCollection.getNodeType() == Node.ELEMENT_NODE) {
 								// add the attribute node completely into the attributeNodes list
-
-								attributeNodes.add(tempChildOfCollection);
+								
+								if(getAndCheckAttributesExistence(tempChildOfCollection, database, mongoCollection, collectionName)) {
+									attributeNodes.add(tempChildOfCollection);
+								}
+								else {
+									break;
+								}
+								
 							}
 						}
 						// after the list is filled , set the attribute nodes to the collectionmetadata
@@ -124,7 +133,17 @@ public class Parser {
 		return false;
 	}
 
-	private static boolean checkAttributesExistence(String dbName, String attr) {
+	// uses Mappy.getAttributes() logic
+	private static boolean getAndCheckAttributesExistence(Node attributeNode, MongoDatabase database,
+			MongoCollection<Document> collection, String collectionName) {
+		String attributeKey = attributeNode.getAttributes().getNamedItem("key").getTextContent();
+		for (String s : getAttributes(database, collection, collectionName)) {
+			if (s.equals(attributeKey)) {
+				return true;
+			}
+		}
+		System.out.println("the " + attributeKey + " does not exist in the collection " + collectionName);
+		System.out.println("please create the collection key first then run...");
 		return false;
 	}
 
@@ -135,6 +154,18 @@ public class Parser {
 			}
 		}
 		return false;
+	}
+
+	public static List<String> getAttributes(MongoDatabase database, MongoCollection<Document> collection,
+			String collectionName) {
+		List<String> attributeList = new ArrayList<>();
+		collection = database.getCollection(collectionName);
+		JSONObject object = new JSONObject(collection.find(Filters.exists("_id")).first().toJson());
+		String[] fieldNames = JSONObject.getNames(object);
+		for (String s : fieldNames) {
+			attributeList.add(s);
+		}
+		return attributeList;
 	}
 
 }
