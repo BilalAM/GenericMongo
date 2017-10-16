@@ -16,6 +16,11 @@ public class ModelMaker {
 		}
 	}
 
+	public void run() throws Exception {
+		for (CollectionMetaData collection : DATA.getCollections()) {
+			generateClass(collection);
+		}
+	}
 	@SuppressWarnings("unused")
 	private static void generateClass(CollectionMetaData collection) throws Exception {
 		String className = collection.getCollectionClassName();
