@@ -18,15 +18,23 @@ import com.mongodb.client.model.Filters;
  * @author bilalam
  *
  */
-public abstract class Mappy implements IMap {
+
+
+/*
+ * 	Implementation has been merged into Parser.java , do not use this class
+ * 	SUBECTED TO DELETION AFTER Version 2 RELEASE 
+ * 
+ * 
+ * */
+@Deprecated
+public abstract class Mappy{
 
 	private static final MongoClient MONGO_CLIENT = new MongoClient("localhost:27017");
 	private static final MongoDatabase MONGO_DATABASE = MONGO_CLIENT.getDatabase("ComplaintsDataset");
 	private static MongoCollection<Document> collection;
-	private List<String> attributeList;
+	private static List<String> attributeList;
 
-	@Override
-	public List<String> getAttributes(String collectionName) {
+	public static List<String> getAttributes(String collectionName) {
 		attributeList = new ArrayList<>();
 		collection = MONGO_DATABASE.getCollection(collectionName);
 		JSONObject object = new JSONObject(collection.find(Filters.exists("_id")).skip(1).first().toJson());
