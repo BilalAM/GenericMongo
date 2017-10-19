@@ -38,7 +38,7 @@ Now just like we create mappings in **hibernate** , you define a xml mapping fil
 </db>
 	
 	
-###Tags description
+### Tags description
 
  - **Database tag (db)**
 	 - Has only one attribute **name** , the name of a existing mongo database
@@ -51,7 +51,7 @@ Now just like we create mappings in **hibernate** , you define a xml mapping fil
 	 - has three attributes **name** , **key** and
    **type** . **name** is for the NEW variable you want to create , **key** is for the EXISTING key attribute in your collection and **type** is for the data type of variable.
 
-###Example
+### Project is still underway :) ......
  
 
 
