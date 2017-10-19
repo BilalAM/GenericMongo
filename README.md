@@ -47,7 +47,7 @@ Now just like we create mappings in **hibernate** , you define a xml mapping fil
 	 -  has two attributes **name** and **class** , **name** is for the existing collection in your database and **class** is for the name of the class that the collection will be mapped into.
  
  
- -     **Attribute tag (attribute) ** 
+ - **Attribute tag (attribute)** 
 	 - has three attributes **name** , **key** and
    **type** . **name** is for the NEW variable you want to create , **key** is for the EXISTING key attribute in your collection and **type** is for the data type of variable.
 
