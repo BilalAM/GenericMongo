@@ -30,5 +30,11 @@ public class CollectionMetaData {
 	public void setCollectionClassName(String collectionClassName) {
 		this.collectionClassName = collectionClassName;
 	}
+	public List<Node> getAssociationsNodes() {
+		return associationsNodes;
+	}
+	public void setAssociationsNodes(List<Node> associationsNodes) {
+		this.associationsNodes = associationsNodes;
+	}
 
 }
