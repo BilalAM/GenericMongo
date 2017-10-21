@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 public class CollectionMetaData {
 
 	private List<Node> attributeNodes;
+	private List<Node> associationsNodes;
 	private String collectionName;
 	private String collectionClassName;
 	
