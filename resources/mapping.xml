@@ -1,11 +1,18 @@
-<mapping>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="/home/bilalam/git/GenericMongo/resources/mapping.xsd">
+
 	<db name="ProductDB">
-
-		<collection name="Product" class="Product.java">
-			<attribute name="productId" key="product_id" type="string" />
-			<attribute name="productName" key="product_name" type="int" />
+		<collection name="CustomerCollection" class="Customer.java">
+			<attribute name="CustomerName" key="customer_id" type="int" />
+			<attribute name="CustomerAddress" key="customer_add" type="String" />
+			
+			<!--  FOR EXAMPLE PURPOSES ONLY.... 
+			<one-one name = "CustomerContact" key = "customer_contact" onClass="Contact.java"/>
+			-->
 		</collection>
-
+		<collection name="ProductCollection" class="Product.java">
+			<attribute name="ProductName" key="prod_name" type="String" />
+			<attribute name="ProductPrice" key="prod_price" type="double" />
+		</collection>
 	</db>
-
 </mapping>
